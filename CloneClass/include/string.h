@@ -32,6 +32,13 @@ namespace utility {
 		String& to_lower() noexcept;
 		String& to_upper() noexcept;
 
+		char* getRaw() {
+			char* raw = new char[m_size+1];
+			memcpy(raw, buffer.get(), m_size);
+			raw[m_size] = '\0';
+			return raw;
+		}
+
 		friend std::ostream& operator<<(std::ostream& stream, const String& string) noexcept;
 
 	private:
