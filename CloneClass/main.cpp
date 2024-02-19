@@ -25,12 +25,22 @@ int main() {
 	logging::Warn("Carefull!", "Message", "4612", "32.15");
 	logging::Error("Stop!");
 
+	logging::default_logger()->setFileFlag(true);
 	auto nLog = std::make_shared<Log>("Deep");
 	//logging::set_default_logger(nLog);
 	logging::Warn("This is new logger");
 	logging::Info("This is new Info");
 	logging::Info("This is new Info");
 	nLog->log(Log::Level::LevelError, "This is Error");
+
+	auto logger = std::make_shared<Log>("Darshan" , "error.txt");
+	logger->setFileFlag(true);
+	logger->log(Log::Level::LevelWarning, "This is new warning");
+	logger->log(Log::Level::LevelInfo, "This is new Info");
+	logger->log(Log::Level::LevelWarning, "This is new warning");
+	logger->log(Log::Level::LevelError, "This is new Error");
+	logger->log(Log::Level::LevelWarning, "This is new warning");
+	logger->log(Log::Level::LevelWarning, "This is new warning");
 	//logging::default_logger()->flush();
 	/*t1.join();
 	t2.join();

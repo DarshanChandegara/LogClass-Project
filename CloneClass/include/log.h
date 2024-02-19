@@ -20,7 +20,9 @@ namespace logging {
 
 		explicit Log(const String& s) : l_name{s} , m_LogLevel { Level::LevelInfo } {}
 		explicit Log(const String& s, Level l) : l_name{ s }, m_LogLevel{ l } {}
-		explicit Log(const String& s, String name) : l_name{ s }, fName{ name }, m_LogLevel{ Level::LevelInfo } {}
+		explicit Log(const String& s, String name) : l_name{ s }, fName{ name }, m_LogLevel{ Level::LevelInfo } {
+			isDumpOnFile = true;
+		}
 		
 		void SetLogLevel(Level level) {
 			m_LogLevel = level;
@@ -30,36 +32,43 @@ namespace logging {
 			return this->m_LogLevel;
 		}
 
+		void setFileFlag(bool flag) {
+			isDumpOnFile = flag;
+		}
+
 		template<typename... T>
 		void log(Log::Level, const T& ...args) const;
 
-		String getString() {
+		void getString() const {
 			buffer.append("\n");
-			return buffer;
+			//return buffer;
 		}
 
 		template<typename T, typename... Args>
-		String getString(T Arg, Args... args) {
+		void getString(T Arg, Args... args) const {
 
 			buffer.append(Arg);
 			buffer.append(" ");
-			buffer = getString(args...);
-			return buffer;
+			getString(args...);
+			//return buffer;
 		}
+
 		void flush(const String&) const;
 		mutable int bufferCount{ 0 };
 
 		~Log() {
-			flush(buffer);
-			buffer = "";
-			bufferCount = 0;
+			if (isDumpOnFile) {
+				flush(buffer);
+				buffer = "";
+				bufferCount = 0;
+			}
 		}
 
 	private:
 		String l_name;
 		Level m_LogLevel;
-		bool isDumpOnFile = true;
-		String fName{ "./Default.txt" };
+		bool isDumpOnFile = false;
+		String fName{"default.txt"};
 		mutable String buffer{ "" };
 		mutable date m_date = date{ 30,1,2024 };
 
@@ -68,6 +77,7 @@ namespace logging {
 
 		template<typename T, typename... Args>
 		void printArgs(T&& Arg, Args&&... args) const;
+
 		String showLevel(Level) const ;
 		void logConsole(String msg)const;
 	};

@@ -6,7 +6,7 @@ using logging::Log;
 
 namespace logging {
 
-	auto myLogger = std::make_shared<Log>("Darshan");
+	auto myLogger = std::make_shared<Log>("System");
 
 	std::shared_ptr<Log> default_logger() {
 		return myLogger;
@@ -41,16 +41,17 @@ namespace logging {
 			str.append(l_name);
 			str.append("] ");
 			str.append("[");
-			str.append(default_logger()->showLevel(l));
+			str.append(showLevel(l));
 			str.append("] ");
 
-			default_logger()->logConsole(str);
+			logConsole(str);
 			printArgs(args...);
-			buffer.append(str);
-			default_logger()->getString(args...);
 
 
-			if (default_logger()->isDumpOnFile == true) {
+
+			if (isDumpOnFile == true) {
+				buffer.append(str);
+				getString(args...);
 				//std::cout << "1 ";
 				bufferCount++;
 				
