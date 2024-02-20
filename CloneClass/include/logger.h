@@ -2,6 +2,8 @@
 #define _LOG_
 
 #include "log.h"
+#include "utility.h"
+#include<string>
 using logging::Log;
 
 namespace logging {
@@ -16,7 +18,7 @@ namespace logging {
 		myLogger = std::move(ptr);
 	}
 
-	String Log::showLevel(Log::Level l) const {
+	std::string Log::showLevel(Log::Level l) const {
 		switch (l) {
 		case Level::LevelError:
 			return "Error";
@@ -31,18 +33,40 @@ namespace logging {
 		}
 	}
 
+	std::string Log::showLevelWithColour(Log::Level l) const {
+		switch (l) {
+		case Level::LevelError:
+			return "\x1b[31mError\x1b[0m";
+
+		case Level::LevelInfo:
+			return "\x1b[32mInfo\x1b[0m";
+
+		case Level::LevelWarning:
+			return "\x1b[33mWarning\x1b[0m";
+
+		default: return "";
+		}
+	}
+
 	template<typename... T>
 	void Log::log(Log::Level l, const T& ...args) const {
 
 		if (m_LogLevel >= l) {
-			String str = "Date:- ";
-			str.append(m_date.string_rep());
-			str.append(" [");
-			str.append(l_name);
-			str.append("] ");
-			str.append("[");
-			str.append(showLevel(l));
-			str.append("] ");
+			std::string str = string_rep();
+			str.append(" [")
+				.append(showLevelWithColour(l))
+				.append("] ")
+				.append("[")
+				.append(l_name)
+				.append("] ");
+
+			std::string str1 = string_rep();
+			str1.append(" [")
+				.append(showLevel(l))
+				.append("] ")
+				.append("[")
+				.append(l_name)
+				.append("] ");
 
 			logConsole(str);
 			printArgs(args...);
@@ -50,11 +74,11 @@ namespace logging {
 
 
 			if (isDumpOnFile == true) {
-				buffer.append(str);
+				buffer.append(str1);
 				getString(args...);
 				//std::cout << "1 ";
 				bufferCount++;
-				
+
 				//std::cout << "2 ";
 				if (bufferCount >= 5) {
 					flush(buffer);
@@ -67,19 +91,19 @@ namespace logging {
 	}
 
 	template<typename... Args>
-	void Warn(const String& message, Args... args) {
+	void Warn(const std::string& message, Args... args) {
 		std::lock_guard<std::mutex> l(m);
 		default_logger()->log(Log::Level::LevelWarning, message, args...);
 	}
 
 	template<typename... Args>
-	void Error(const String& message, Args... args) {
+	void Error(const std::string& message, Args... args) {
 		std::lock_guard<std::mutex> l(m);
 		default_logger()->log(Log::Level::LevelError, message, args...);
 	}
 
 	template<typename... Args>
-	void Info(const String& message, Args... args) {
+	void Info(const std::string& message, Args... args) {
 		std::lock_guard<std::mutex> l(m);
 		default_logger()->log(Log::Level::LevelInfo, message, args...);
 	}

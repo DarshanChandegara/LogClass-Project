@@ -2,7 +2,8 @@
 #define exce
 
 #include"./string.h"
-using utility::String;
+#include<string>
+//using utility::String;
 
 
 namespace exception {
@@ -12,15 +13,15 @@ namespace exception {
 
 	public:
 		Exception() : message{ "There is Some Error" } {}
-		Exception(String s) : message{ s } {
+		Exception(std::string s) : message{ s } {
 		}
 
-		String getMessage() const {
+		std::string getMessage() const {
 			return message;
 		}
 
 	private:
-		String message;
+		std::string message;
 	};
 }
 

@@ -1,0 +1,12 @@
+20/2/2024 :: 17:20:27 [Warning] [System] This is new logger 
+20/2/2024 :: 17:20:27 [Info] [System] This is new Info 
+20/2/2024 :: 17:20:27 [Info] [System] This is new Info 
+20/2/2024 :: 17:25:50 [Warning] [System] This is new logger 
+20/2/2024 :: 17:25:50 [Info] [System] This is new Info 
+20/2/2024 :: 17:25:50 [Info] [System] This is new Info 
+20/2/2024 :: 17:26:4 [Warning] [System] This is new logger 
+20/2/2024 :: 17:26:4 [Info] [System] This is new Info 
+20/2/2024 :: 17:26:4 [Info] [System] This is new Info 
+20/2/2024 :: 17:28:52 [Warning] [System] This is new logger 
+20/2/2024 :: 17:28:52 [Info] [System] This is new Info 
+20/2/2024 :: 17:28:52 [Info] [System] This is new Info 

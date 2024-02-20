@@ -3,25 +3,26 @@
 
 #include<fstream>
 #include "string.h"
+#include<string>
 
-using utility::String;
+//using utility::String;
 
 namespace logging {
 
 	class FileHelper {
 		
 	public:
-		FileHelper(String name) : fName{name} , out{name.getRaw() , std::ios::app} {
+		FileHelper(std::string name) : fName{name} , out{name , std::ios::app} {
 			//std::cout << "4 ";
 		}
 
-		void writeLine(const String& log) {
+		void writeLine(const std::string& log) {
 			//std::cout << "5 ";
 			out << log;
 		}
 
 	private :
-		String fName{ "" };
+		std::string fName{ "" };
 		std::ofstream out{};
 	}; 
 }
